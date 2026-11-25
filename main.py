@@ -15,8 +15,10 @@ TARGET = "/output/entry.txt"
 
 def main():
     text = VOW
-    assert text and len(text) <= MAX_CHARS
-    assert "\n" not in text and "\r" not in text
+    if not text or len(text) > MAX_CHARS:
+        raise ValueError("vow must be a non-empty line of at most 160 characters")
+    if "\n" in text or "\r" in text:
+        raise ValueError("vow must be a single line")
     os.makedirs(os.path.dirname(TARGET), exist_ok=True)
     with open(TARGET, "w", encoding="utf-8") as out:
         out.write(text)
